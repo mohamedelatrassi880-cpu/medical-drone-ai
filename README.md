@@ -24,7 +24,7 @@ python -m venv .venv
 .\.venv\Scripts\activate
 pip install -r requirements.txt
 
-###2. Set Up Your Secrets
+2. Set Up Your Secrets
 You need a Gemini API Key.
 
 Get a free key from Google AI Studio.
@@ -32,9 +32,9 @@ Get a free key from Google AI Studio.
 Create a file named .env in the root folder.
 
 Paste your key inside: GEMINI_API_KEY=your_key_here
-###3. Initialize the Warehouse
+3. Initialize the Warehouse
 Run the database builder to create the local drone_hub.db file: python init_db.py
-###4. Launch the Server
+4. Launch the Server
 Start the API locally: uvicorn app.main:app --reload
 
 How to Test the AI
