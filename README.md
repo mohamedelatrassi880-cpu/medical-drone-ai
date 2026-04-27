@@ -1,52 +1,50 @@
-# Medical Drone AI Core (Group 19)
+# 🚁 OrdoSafe AI Gateway - Medical Drone Backend
 
-This is the central intelligence for our **Learning by Doing** project at École Centrale Casablanca. This backend uses **Google Gemini 2.5 Flash** to read handwritten prescriptions and verify them against a local **SQLite** medical database.
-
----
-
-## System Architecture
-1. **The Eyes:** Google Gemini Vision AI (OCR & Entity Extraction).
-2. **The Brain:** FastAPI (Python web server handling requests).
-3. **The Memory:** SQLite Database (Stores authorized patients and drone hub inventory).
-
-
+A secure, AI-powered FastAPI backend designed to verify medical prescriptions before authorizing drone delivery. This system acts as a digital pharmacist and identity gateway, ensuring that all deliveries are legally compliant, medically safe, and authorized by a registered practitioner.
 
 ---
 
-## Quick Setup (For Team Members)
+## ✨ Core Features
+1. **AI Handwriting Recognition (OCR):** Uses Google Gemini 2.5 Flash to extract patient data, medications, and dosages from messy, handwritten prescriptions.
+2. **INPE Detection & Verification:** Extracts the 9-digit INPE code and cross-references it against a local SQLite database using fuzzy-matching to forgive OCR typos.
+3. **AI Pharmacist Coherence Check:** Automatically flags lethal overdoses, illogical prescriptions, and enforces the Moroccan 90-day prescription expiration law.
+4. **Universal Digital Support:** Seamlessly processes both image files (JPG, PNG) and digital e-prescriptions (PDFs).
 
-Follow these steps to get the AI running on your local machine:
+---
 
-### 1. Environment Setup
-Create a virtual environment to keep our libraries separate:
-```powershell
+## 🚀 Installation & Setup
+
+**1. Create and activate a virtual environment:**
+```bash
 python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r requirements.txt
+.\.venv\Scripts\activate 
+```
+**2. Install dependencies:**
+```bash
+pip install fastapi uvicorn google-genai pydantic pillow python-dotenv thefuzz rapidfuzz python-multipart
+```
+**3. Configure Environment Variables:**
+Create a file named .env in the root directory and paste your API key:
+```Code snippet
+GEMINI_API_KEY=your_api_key_here
+```
+**4. Initialize the Database:**
+Run the database builder to create the local drone_hub.db file and populate it with our mock ANAM registry:
+```bash
+python init_db.py
+```
+## How to Test the AI
+**1. Start the Server:**
+```bash
+uvicorn app.main:app --reload
+```
+**2. Test the Endpoint:**
+Open your browser and go to: http://127.0.0.1:8000/docs
 
-2. Set Up Your Secrets
-You need a Gemini API Key.
-
-Get a free key from Google AI Studio.
-
-Create a file named .env in the root folder.
-
-Paste your key inside: GEMINI_API_KEY=your_key_here
-3. Initialize the Warehouse
-Run the database builder to create the local drone_hub.db file: python init_db.py
-4. Launch the Server
-Start the API locally: uvicorn app.main:app --reload
-
-How to Test the AI
-Once the server is running:
-
-Open your browser to https://www.google.com/search?q=http://127.0.0.1:8000/docs.
-
-Find the POST /scan-and-verify/ endpoint.
+Find the POST /ordosafe-verify/ endpoint.
 
 Click "Try it out".
 
-Upload a photo of a prescription (e.g., data/sample.png).
+Upload a photo of a prescription or a PDF.
 
-Click "Execute" to see the AI's JSON verdict!
-
+Click "Execute" to see the AI's JSON verification report!
